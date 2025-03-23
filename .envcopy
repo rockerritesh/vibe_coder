@@ -1,0 +1,11 @@
+OPENAI_API_KEY = "sk-proj-"
+
+BASE_URL_OPENAI = "https://api.openai.com/v1/"
+
+BASE_URL_DEEPSEEK = "https://api.deepseek.com/v1/"
+
+LOCAL_URL = "http://127.0.0.1:1234"
+
+MODEL_NAME = "qwen2.5-coder-3b-instruct"
+
+LOCAL_API_KEY = "qwen2.5-coder-3b-instruct"

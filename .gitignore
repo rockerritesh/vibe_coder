@@ -1,0 +1,49 @@
+# add all gitignore for python and env and generated_projects directories
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+*.eggs/
+*.egg
+*.whl
+*.mypy_cache/
+*.pytest_cache/
+*.coverage
+*.cover
+*.hypothesis/
+*.tox/
+*.coverage.*
+*.coverage.*
+*.coveragerc
+
+# directories
+env/
+venv/
+venv.bak/
+diretory
+generated_projects/
+temp/
+tmp/
+# IDEs
+.idea/
+.vscode/
+# Jupyter Notebook
+.ipynb_checkpoints/
+# PyCharm
+*.iml
+*.ipr
+*.iws
+# VS Code
+.vscode/
+# Pytest
+*.pytest_cache/
+
+# .env
+.env
+# Local configuration files
+*.local
+# Local history for JetBrains IDEs
+.idea/
