@@ -11,7 +11,7 @@ The Vibe Codder Agent is designed for users who want to create projects with min
 - **Multi Model Support**: Till Now supported model are OPENAI, DEEPSEEK, LOCALLM, OLLAMA ETC.
 
 ## To-Do List
-- [ ] Add tools like read docs.
+- [x] Add tools like read docs.
 - [ ] Implement multiple language support.
 - [ ] Create project-wise environment for debugging and running.
 - [ ] Support additional models.
@@ -22,7 +22,8 @@ The Vibe Codder Agent is designed for users who want to create projects with min
    ```bash
    pip install -r requirements.txt
    ```
-3. **Create.env file**: Copy `.envcopy` to `.env`
+3. **Create.env file**: Copy `.envcopy` to `.env` (fill the env files)
+4. **Update the `openai_client.py` for your suitable LLM.
 4. **Run the Application**: Check the `run_command.txt` file for instructions on how to start the application.
 
 ## Project Structure
@@ -49,3 +50,10 @@ For any inquiries, please reach out to the project maintainer.
 ## old-version
 
 On old_version directory.
+
+## Limitation//Requirements
+- Some times this miss to install requirements.txt
+- Need Some KNowledge of Programming.
+
+## Why Streamlit and Fastapi For Now
+Streamlit and Fastapi is the best combo to make small app quickly.

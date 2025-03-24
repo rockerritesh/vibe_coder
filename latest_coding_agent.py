@@ -11,31 +11,11 @@ import time
 
 # Load environment variables
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Model for individual files
-class File(BaseModel):
-    name: str
-    content: str
+from openai_client import get_client
+from models import File, RequirementsGatheringEvent, CodeGenerationEvent, ProjectAnalysisEvent
+client = get_client()
 
-# Model for gathering project requirements
-class RequirementsGatheringEvent(BaseModel):
-    all_details_gathered: bool
-    question: str
-    project_type: str  # "Streamlit" or "FastAPI"
-    requirements: str  # Accumulated user requirements
-
-# Model for code generation
-class CodeGenerationEvent(BaseModel):
-    generated_code: list[File]  # List of File objects
-    run_command: str  # Command to run the application
-
-# Model for project analysis
-class ProjectAnalysisEvent(BaseModel):
-    project_structure: str  # Description of project structure and key files
-    project_type: str  # "Streamlit" or "FastAPI"
-    main_features: str  # Summary of main features
-    suggested_updates: list[str]  # Suggested potential updates
 
 def get_event(message: list, base_model: type) -> BaseModel:
     """Generate a response from OpenAI based on the conversation."""
@@ -329,7 +309,7 @@ def main():
                     "- For FastAPI: Implement proper API endpoints with documentation, validation, and error handling\n"
                     "- Always include a requirements.txt file with all necessary dependencies\n"
                     "- Ensure code is robust, well-commented, and follows best practices"
-                    "- Requirements should not have version number."
+                    "- Write requirements.txt without version name."
                 ),
             },
             {"role": "user", "content": query},
@@ -337,6 +317,17 @@ def main():
 
         # Step 1: Gather requirements with progress feedback
         print("\n=== Gathering Requirements ===")
+        link = input("Any Reference link eg doc: ")
+        if len(link) > 0:
+            # seperate link by space
+            links = link.split()
+            # run the subprocess to extract the text from the link `python scraper.py "https:sumityadav.com.np/biography"`
+            for link in links:
+                scraped_text = subprocess.run(["python", "scraper_doc.py", link], capture_output=True, text=True).stdout
+                # add the link to the message
+                print(f"Scraped text from {link}:\n{scraped_text}")
+                # add the link to the message
+                message.append({"role": "user", "content": f"Here is the reference link: {link} Docs \n{scraped_text}"})
         requirements_count = 0
         while True:
             event = get_event(message, RequirementsGatheringEvent)
