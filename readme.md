@@ -10,6 +10,62 @@ The Vibe Codder Agent is designed for users who want to create projects with min
 - **Project Analysis**: Analyze project structure and suggest updates.
 - **Multi Model Support**: Till Now supported model are OPENAI, DEEPSEEK, LOCALLM, OLLAMA ETC.
 
+## Example
+```
+`python latest_coding_agent.py`
+================================================================================
+Python Application Generator
+================================================================================
+Options:
+1. Create a new Python application
+2. Update an existing generated project
+
+Enter your choice (1 or 2): 1
+What would you like to build today? (Streamlit app or FastAPI service): streamlti
+
+Project Description: streamlit
+
+=== Gathering Requirements ===
+Any Reference link eg doc: 
+
+Question 1: What kind of application do you want to build with Streamlit? For example, a data visualization app, a form submission app, or something else?
+Your response: fluid visualization with mouse movment
+
+Question 2: What type of fluid visualization are you looking to create? Is it a simulation of fluid dynamics, interactive visualizations using data, or something else? Additionally, what kind of data or input will drive the visualization?
+Your response: yes
+
+Question 3: Could you specify the type of data or parameters you want to use for the fluid dynamics simulation? Also, do you want users to be able to manipulate the simulation parameters in real-time using UI elements?
+Your response: all
+
+✅ Requirements gathered (3 questions answered)
+
+Project Type: Streamlit
+Requirements Summary:
+- Create a fluid dynamics visualization simulation using Streamlit.
+- Allow users to interact with the simulation via mouse movement.
+- Provide real-time parameter adjustment capabilities through UI elements.
+- Ensure the application handles various input data types for the simulation.
+
+=== Generating and Running Code ===
+
+Attempt 1/3
+Generated 2 files: app.py, requirements.txt
+Run command: streamlit run app.py
+
+Installing dependencies...
+Dependencies installed successfully.
+
+Starting application...
+✅ Application started successfully!
+🌐 You can access it at: http://localhost:8501
+📂 Project location: ../generated_projects/project_20250325_074450
+💻 To run it again: streamlit run app.py
+
+=== Success! ===
+Your application has been generated and is ready to use.
+Location: /run/media/limsim/extra/AGENT-CODE-SUPPORT/generated_projects/project_20250325_074450
+```
+
 ## To-Do List
 - [x] Add tools like read docs.
 - [ ] Multiple LLM call for creation of multiple files.
@@ -59,3 +115,7 @@ On old_version directory.
 
 ## Why Streamlit and Fastapi For Now
 Streamlit and Fastapi is the best combo to make small app quickly.
+
+## Demo
+![alt text](image.png)
+
