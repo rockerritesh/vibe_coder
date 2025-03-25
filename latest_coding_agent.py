@@ -20,7 +20,7 @@ client = get_client()
 def get_event(message: list, base_model: type) -> BaseModel:
     """Generate a response from OpenAI based on the conversation."""
     completion = client.beta.chat.completions.parse(
-        model="gpt-4o-2024-08-06",
+        model= os.getenv("MODEL_NAME"),
         messages=message,
         response_format=base_model,
     )
@@ -309,7 +309,6 @@ def main():
                     "- For FastAPI: Implement proper API endpoints with documentation, validation, and error handling\n"
                     "- Always include a requirements.txt file with all necessary dependencies\n"
                     "- Ensure code is robust, well-commented, and follows best practices"
-                    "- Write requirements.txt without version name."
                 ),
             },
             {"role": "user", "content": query},
