@@ -47,3 +47,5 @@ tmp/
 *.local
 # Local history for JetBrains IDEs
 .idea/
+
+react-app/
