@@ -19,12 +19,25 @@ client = get_client()
 
 def get_event(message: list, base_model: type) -> BaseModel:
     """Generate a response from OpenAI based on the conversation."""
-    completion = client.beta.chat.completions.parse(
-        model= os.getenv("MODEL_NAME"),
-        messages=message,
-        response_format=base_model,
-    )
-    return completion.choices[0].message.parsed
+    model_name = os.getenv("MODEL_NAME")
+    # print("Model Name: ", model_name)
+    try:
+        completion = client.beta.chat.completions.parse(
+            model= model_name,
+            messages=message,
+            response_format=base_model,
+        )
+
+        response = completion.choices[0].message.parsed
+    except Exception as e:
+        completion = client.beta.chat.completions.parse(
+            model= model_name,
+            messages=message,
+            response_format=base_model.model_json_schema()
+        )
+        response = completion.choices[0].message.content
+    # print(response)
+    return response
 
 def create_project_directory() -> str:
     """Create a unique project directory with timestamp and readable name."""
@@ -254,8 +267,9 @@ def main():
     print("Options:")
     print("1. Create a new Python application")
     print("2. Update an existing generated project")
+    print("3. Create a static HTML website")  # New option
     
-    choice = input("\nEnter your choice (1 or 2): ").strip()
+    choice = input("\nEnter your choice (1, 2 or 3): ").strip()
     
     if choice == "2":
         # Find existing projects
@@ -285,7 +299,115 @@ def main():
                         print("Invalid selection. Please try again.")
                 except ValueError:
                     print("Please enter a number.")
-    
+
+    if choice == "3":
+        # HTML website generation
+        query = input("What kind of website would you like to build? ")
+        print("\nWebsite Description:", query)
+        
+        # Initialize conversation with HTML-specific system prompt
+        message = [
+            {
+                "role": "system",
+                "content": (
+                    "You are a specialized front-end development assistant that creates HTML/CSS/JavaScript websites. "
+                    "Follow this process:\n"
+                    "1. Gather all requirements by asking targeted questions about design, features, and content.\n"
+                    "2. Once you have sufficient information, generate all necessary files (HTML, CSS, JS).\n"
+                    "3. Provide clear instructions for viewing the website.\n\n"
+                    "Guidelines:\n"
+                    "- Ask focused questions about layout, color schemes, functionality and content\n"
+                    "- Create a responsive design that works on mobile and desktop\n"
+                    "- Include all necessary files and folder structure\n"
+                    "- Use modern HTML5, CSS3 and JavaScript practices\n"
+                    "- Provide a well-structured, semantic HTML document\n"
+                    "- Include detailed comments in the code"
+                ),
+            },
+            {"role": "user", "content": query},
+        ]
+
+        # Step 1: Gather requirements with progress feedback
+        # Step 1: Gather requirements with progress feedback
+        print("\n=== Gathering Requirements ===")
+        link = input("Any Reference link eg doc: ")
+        if len(link) > 0:
+            # seperate link by space
+            links = link.split()
+            # run the subprocess to extract the text from the link `python scraper.py "https:sumityadav.com.np/biography"`
+            for link in links:
+                scraped_text = subprocess.run(["python", "scraper_doc.py", link], capture_output=True, text=True).stdout
+                # add the link to the message
+                print(f"Scraped text from {link}:\n{scraped_text}")
+                # add the link to the message
+                message.append({"role": "user", "content": f"Here is the reference link: {link} Docs \n{scraped_text}"})
+        requirements_count = 0
+        while True:
+            event = get_event(message, RequirementsGatheringEvent)
+            if event.all_details_gathered:
+                print(f"\n✅ Requirements gathered ({requirements_count} questions answered)")
+                print(f"\nProject Type: {event.project_type}")
+                print(f"Requirements Summary:\n{event.requirements}")
+                break
+                
+            requirements_count += 1
+            print(f"\nQuestion {requirements_count}: {event.question}")
+            user_response = input("Your response: ")
+            message.append({"role": "assistant", "content": event.question})
+            message.append({"role": "user", "content": user_response})
+
+        # Step 2: Generate and refine code with improved feedback
+        print("\n=== Generating and Running Code ===")
+        max_attempts = 3
+        final_project_dir = None
+        for attempt in range(max_attempts):
+            print(f"\nAttempt {attempt + 1}/{max_attempts}")
+            
+            # Generate code
+            event = get_event(message, CodeGenerationEvent)
+            file_list = [file.name for file in event.generated_code]
+            print(f"Generated {len(file_list)} files: {', '.join(file_list)}")
+            print("Run command:", "python -m http.server 8000")
+            # Create project directory and files
+            project_dir = create_project_directory()
+            create_files(project_dir, event.generated_code)
+            # Save run command to file for reference
+            with open(os.path.join(project_dir, "run_command.txt"), "w") as f:
+                f.write(event.run_command)
+            # Run the application with appropriate handling for web servers
+            print("\nStarting application...")
+            try:
+                manage_application_process(project_dir, "python -m http.server 8000")
+                # Wait briefly to catch immediate errors
+                time.sleep(2)
+                # Process is still running - likely success
+                app_url = get_application_url(event.run_command)
+                print(f"✅ Application started successfully!")
+                print(f"🌐 You can access it at: {app_url}")
+                print(f"📂 Project location: {project_dir}")
+                print(f"💻 To run it again: {event.run_command}")
+                final_project_dir = project_dir
+                break
+            except Exception as e:
+                print(f"❌ Error starting application: {str(e)}")
+            # Only clean up if we're continuing to another attempt
+            if attempt < max_attempts - 1:
+                shutil.rmtree(project_dir)
+        # Final feedback
+        if final_project_dir:
+            print("\n=== Success! ===")
+            print(f"Your application has been generated and is ready to use.")
+            print(f"Location: {final_project_dir}")
+        else:
+            print(f"\n=== Unable to generate working code after {max_attempts} attempts ===")
+            print("Please try again with a more specific description or simpler requirements.")
+        print("Exiting...")
+        print("=" * 80)
+        print("Thank you for using the Python Application Generator!")
+        print("=" * 80)
+        exit(0)
+
+
     if choice == "1":
         # Create a new project
         # Get initial user query

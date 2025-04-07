@@ -117,5 +117,8 @@ On old_version directory.
 Streamlit and Fastapi is the best combo to make small app quickly.
 
 ## Demo
+### FastAPI
 ![alt text](image.png)
+### HTML
+![alt text](image-1.png)
 
