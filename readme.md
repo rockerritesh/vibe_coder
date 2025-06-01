@@ -1,4 +1,4 @@
-# Vibe Codder Agent
+# Vibe Coder Agent
 
 ## Overview
 The Vibe Codder Agent is designed for users who want to create projects with minimal or no coding. It leverages OpenAI's capabilities to assist in generating code and managing project environments.
