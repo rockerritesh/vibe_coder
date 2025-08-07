@@ -156,12 +156,22 @@ MODEL_NAME=qwen2.5-coder-3b-instruct
 ### Supported LLM Providers
 
 #### OpenAI Configuration
-- **Models**: GPT-3.5, GPT-4, and other OpenAI models
-- **Setup**: 
+- **Supported Models**: 
+  - `gpt-3.5-turbo` (recommended for cost-effectiveness)
+  - `gpt-4` (higher quality, more expensive)
+  - `gpt-4-turbo` (latest GPT-4 variant)
+  - `gpt-4o` (optimized version)
+- **Setup Steps**: 
   1. Get API key from [OpenAI Platform](https://platform.openai.com/api-keys)
   2. Set in `.env`: `OPENAI_API_KEY=sk-proj-your-actual-key`
   3. Set base URL: `BASE_URL_OPENAI=https://api.openai.com/v1/`
   4. Choose model: `MODEL_NAME=gpt-3.5-turbo` or `gpt-4`
+- **Example Configuration**:
+  ```bash
+  OPENAI_API_KEY=sk-proj-abc123def456ghi789
+  BASE_URL_OPENAI=https://api.openai.com/v1/
+  MODEL_NAME=gpt-3.5-turbo
+  ```
 
 #### DeepSeek Configuration
 - **Models**: DeepSeek Coder and Chat models
@@ -408,6 +418,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
