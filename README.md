@@ -95,10 +95,38 @@ MODEL_NAME=qwen2.5-coder-3b-instruct
 
 ### Supported LLM Providers
 
-- **OpenAI**: GPT-3.5, GPT-4, and other OpenAI models
-- **DeepSeek**: DeepSeek Coder and Chat models
-- **Local LLM**: Self-hosted models via local API servers
-- **Ollama**: Local Ollama installations
+#### OpenAI Configuration
+- **Models**: GPT-3.5, GPT-4, and other OpenAI models
+- **Setup**: 
+  1. Get API key from [OpenAI Platform](https://platform.openai.com/api-keys)
+  2. Set in `.env`: `OPENAI_API_KEY=sk-proj-your-actual-key`
+  3. Set base URL: `BASE_URL_OPENAI=https://api.openai.com/v1/`
+  4. Choose model: `MODEL_NAME=gpt-3.5-turbo` or `gpt-4`
+
+#### DeepSeek Configuration
+- **Models**: DeepSeek Coder and Chat models
+- **Setup**:
+  1. Get API key from [DeepSeek Platform](https://platform.deepseek.com/)
+  2. Set in `.env`: `OPENAI_API_KEY=your-deepseek-key`
+  3. Set base URL: `BASE_URL_OPENAI=https://api.deepseek.com/v1/`
+  4. Choose model: `MODEL_NAME=deepseek-coder` or `deepseek-chat`
+
+#### Local LLM Configuration
+- **Models**: Self-hosted models via local API servers (LM Studio, text-generation-webui, etc.)
+- **Setup**:
+  1. Start your local LLM server (e.g., LM Studio on port 1234)
+  2. Set in `.env`: `OPENAI_API_KEY=not-needed` (or any placeholder)
+  3. Set base URL: `BASE_URL_OPENAI=http://127.0.0.1:1234/v1/`
+  4. Set model name: `MODEL_NAME=your-local-model-name`
+
+#### Ollama Configuration
+- **Models**: Local Ollama installations
+- **Setup**:
+  1. Install and start Ollama locally
+  2. Pull desired model: `ollama pull qwen2.5-coder:3b`
+  3. Set in `.env`: `OPENAI_API_KEY=ollama` (placeholder)
+  4. Set base URL: `BASE_URL_OPENAI=http://localhost:11434/v1/`
+  5. Set model: `MODEL_NAME=qwen2.5-coder:3b`
 
 ## Usage
 
@@ -320,4 +348,5 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
