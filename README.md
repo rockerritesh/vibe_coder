@@ -71,6 +71,15 @@ The Vibe Coder Agent is designed for users who want to create projects with mini
    
    For different providers, update the environment variables in `.env` accordingly.
 
+5. **Verify Installation**
+   
+   Test your setup by running:
+   ```bash
+   python latest_coding_agent.py
+   ```
+   
+   You should see the main menu with three options. If you encounter errors, check the troubleshooting section below.
+
 ## Configuration
 
 ### Environment Variables
@@ -348,5 +357,6 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
