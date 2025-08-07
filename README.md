@@ -245,6 +245,54 @@ MODEL_NAME=qwen2.5-coder-3b-instruct
   BASE_URL_OPENAI=http://your-server-ip:11434/v1/
   ```
 
+### Configuration Tips and Best Practices
+
+#### Choosing the Right Provider
+- **OpenAI**: Best for production use, highest quality output, requires paid API access
+- **DeepSeek**: Good balance of cost and performance, specialized coding models
+- **Local LLM**: Complete privacy, no API costs, requires local hardware resources
+- **Ollama**: Easy local setup, good for development and testing, free to use
+
+#### Model Selection Guidelines
+- **For Code Generation**: Use coding-specialized models like `deepseek-coder`, `qwen2.5-coder`, or `codellama`
+- **For General Tasks**: Use chat models like `gpt-3.5-turbo`, `deepseek-chat`, or `mistral`
+- **For Resource Constraints**: Use smaller models like `qwen2.5-coder:3b` or `mistral:7b`
+- **For Best Quality**: Use larger models like `gpt-4`, `qwen2.5-coder:7b`, or `codellama:13b`
+
+#### Environment Variable Reference
+Based on the `.envcopy` template, here are all available configuration options:
+
+```bash
+# Primary API Configuration
+OPENAI_API_KEY=your-api-key-here          # Required for all providers
+BASE_URL_OPENAI=provider-base-url         # Provider-specific base URL
+MODEL_NAME=model-name                     # Model to use for generation
+
+# Alternative URLs (from .envcopy)
+BASE_URL_DEEPSEEK=https://api.deepseek.com/v1/
+LOCAL_URL=http://127.0.0.1:1234          # Local LLM server URL
+LOCAL_API_KEY=your-local-api-key         # Local server API key (if needed)
+```
+
+#### Provider Switching
+To switch between providers, simply update these three variables in your `.env` file:
+```bash
+# Switch to DeepSeek
+OPENAI_API_KEY=your-deepseek-key
+BASE_URL_OPENAI=https://api.deepseek.com/v1/
+MODEL_NAME=deepseek-coder
+
+# Switch to Local LLM
+OPENAI_API_KEY=local-placeholder
+BASE_URL_OPENAI=http://127.0.0.1:1234/v1/
+MODEL_NAME=qwen2.5-coder-3b-instruct
+
+# Switch to Ollama
+OPENAI_API_KEY=ollama-placeholder
+BASE_URL_OPENAI=http://localhost:11434/v1/
+MODEL_NAME=qwen2.5-coder:3b
+```
+
 ## Usage
 
 ### Quick Start
@@ -465,6 +513,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
