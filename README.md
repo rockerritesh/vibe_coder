@@ -216,13 +216,34 @@ MODEL_NAME=qwen2.5-coder-3b-instruct
   ```
 
 #### Ollama Configuration
-- **Models**: Local Ollama installations
-- **Setup**:
-  1. Install and start Ollama locally
-  2. Pull desired model: `ollama pull qwen2.5-coder:3b`
-  3. Set in `.env`: `OPENAI_API_KEY=ollama` (placeholder)
-  4. Set base URL: `BASE_URL_OPENAI=http://localhost:11434/v1/`
-  5. Set model: `MODEL_NAME=qwen2.5-coder:3b`
+- **Supported Models**: 
+  - `qwen2.5-coder:3b` (lightweight coding model)
+  - `qwen2.5-coder:7b` (better performance, larger size)
+  - `codellama:7b` (Meta's CodeLlama model)
+  - `deepseek-coder:6.7b` (DeepSeek's coding model)
+  - `mistral:7b` (general purpose model)
+  - `llama3:8b` (Meta's latest model)
+- **Setup Steps**:
+  1. Install Ollama from [ollama.ai](https://ollama.ai/)
+  2. Start Ollama service: `ollama serve`
+  3. Pull desired model: `ollama pull qwen2.5-coder:3b`
+  4. Verify model: `ollama list`
+  5. Set in `.env`: `OPENAI_API_KEY=ollama` (placeholder)
+  6. Set base URL: `BASE_URL_OPENAI=http://localhost:11434/v1/`
+  7. Set model: `MODEL_NAME=qwen2.5-coder:3b`
+- **Example Configuration**:
+  ```bash
+  OPENAI_API_KEY=ollama-placeholder
+  BASE_URL_OPENAI=http://localhost:11434/v1/
+  MODEL_NAME=qwen2.5-coder:3b
+  ```
+- **Alternative Port Configuration**:
+  ```bash
+  # If Ollama runs on different port
+  BASE_URL_OPENAI=http://localhost:11434/v1/
+  # Or for remote Ollama instance
+  BASE_URL_OPENAI=http://your-server-ip:11434/v1/
+  ```
 
 ## Usage
 
@@ -444,6 +465,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
