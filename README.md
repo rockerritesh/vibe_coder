@@ -51,7 +51,25 @@ The Vibe Coder Agent is designed for users who want to create projects with mini
 
 4. **Update LLM Client Configuration**
    
-   Modify `openai_client.py` if needed to match your preferred LLM provider setup.
+   The `openai_client.py` file handles LLM provider connections. For most providers, you only need to update the `.env` file, but for custom setups, you may need to modify this file:
+   
+   ```python
+   # openai_client.py - Default configuration
+   from openai import OpenAI
+   import os
+   from dotenv import load_dotenv
+   
+   load_dotenv()
+   
+   def get_client():
+       client = OpenAI(
+           api_key=os.getenv("OPENAI_API_KEY"), 
+           base_url=os.getenv("BASE_URL_OPENAI")
+       )
+       return client
+   ```
+   
+   For different providers, update the environment variables in `.env` accordingly.
 
 ## Configuration
 
@@ -302,3 +320,4 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
