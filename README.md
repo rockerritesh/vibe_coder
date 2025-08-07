@@ -527,36 +527,338 @@ generated_projects/project_20250107_143022/
 - **HTML Projects**: Generate `index.html`, CSS files, and JavaScript for static websites
 - **Common Files**: All projects include `requirements.txt`, `README.md`, and `run_command.txt`
 
-## Examples
+## Usage Examples and Workflows
 
-### Creating a Streamlit Data Visualization App
+### Feature 1: Creating New Python Applications
 
-```bash
-python latest_coding_agent.py
-# Choose option 1
-# Specify "streamlit data dashboard"
-# Answer AI questions about data sources, chart types, etc.
-# Generated app will be in generated_projects/project_TIMESTAMP/
-```
+#### Example 1: Streamlit Data Visualization Dashboard
 
-### Creating a FastAPI Service
+**Complete User Interaction Flow:**
 
 ```bash
-python latest_coding_agent.py  
-# Choose option 1
-# Specify "fastapi rest api"
-# Answer questions about endpoints, data models, etc.
-# Service will be generated with automatic documentation
+$ python latest_coding_agent.py
+================================================================================
+Python Application Generator
+================================================================================
+Options:
+1. Create a new Python application
+2. Update an existing generated project
+3. Create a static HTML website
+
+Enter your choice (1, 2 or 3): 1
+What would you like to build today? (Streamlit app or FastAPI service): streamlit dashboard
+
+Project Description: streamlit dashboard
+
+=== Gathering Requirements ===
+Any Reference link eg doc: 
+
+Question 1: What kind of data visualization dashboard do you want to create? What type of data will it display?
+Your response: sales analytics dashboard with charts showing revenue trends, product performance, and customer demographics
+
+Question 2: What specific chart types would you like to include? (e.g., line charts, bar charts, pie charts, scatter plots)
+Your response: line charts for revenue trends, bar charts for product sales, pie charts for customer segments, and interactive filters
+
+Question 3: Do you want the dashboard to use sample data or connect to a specific data source?
+Your response: use sample sales data with realistic numbers
+
+✅ Requirements gathered (3 questions answered)
+
+=== Generating and Running Code ===
+Attempt 1/3
+Generated 4 files: app.py, requirements.txt, README.md, sample_data.py
+Run command: streamlit run app.py
+
+Installing dependencies...
+✅ Dependencies installed successfully
+
+Starting application...
+✅ Application started successfully!
+🌐 You can access it at: http://localhost:8501
+📂 Project location: /path/to/generated_projects/project_20250107_143022
+💻 To run it again: streamlit run app.py
+
+=== Success! ===
+Your application has been generated and is ready to use.
+Location: /path/to/generated_projects/project_20250107_143022
 ```
 
-### Creating an HTML Website
+**Generated Files:**
+- `app.py`: Main Streamlit application with interactive dashboard
+- `requirements.txt`: Dependencies (streamlit, pandas, plotly, numpy)
+- `README.md`: Project documentation and usage instructions
+- `sample_data.py`: Sample sales data generator
+
+#### Example 2: FastAPI REST API Service
+
+**Complete User Interaction Flow:**
 
 ```bash
-python latest_coding_agent.py
-# Choose option 3  
-# Describe your website requirements
-# Generated static site will include HTML, CSS, and JavaScript
+$ python latest_coding_agent.py
+================================================================================
+Python Application Generator
+================================================================================
+Options:
+1. Create a new Python application
+2. Update an existing generated project
+3. Create a static HTML website
+
+Enter your choice (1, 2 or 3): 1
+What would you like to build today? (Streamlit app or FastAPI service): fastapi todo api
+
+Project Description: fastapi todo api
+
+=== Gathering Requirements ===
+Any Reference link eg doc: 
+
+Question 1: What kind of API endpoints do you want for your todo application?
+Your response: CRUD operations - create, read, update, delete todos, plus list all todos and mark as complete
+
+Question 2: What data fields should each todo item have?
+Your response: id, title, description, completed status, created date, due date, priority level
+
+Question 3: Do you want authentication, database integration, or just in-memory storage for now?
+Your response: in-memory storage with Pydantic models, no authentication needed for now
+
+✅ Requirements gathered (3 questions answered)
+
+=== Generating and Running Code ===
+Attempt 1/3
+Generated 5 files: main.py, models.py, requirements.txt, README.md, test_api.py
+Run command: uvicorn main:app --reload
+
+Installing dependencies...
+✅ Dependencies installed successfully
+
+Starting application...
+✅ Application started successfully!
+🌐 You can access it at: http://localhost:8000
+📚 API Documentation: http://localhost:8000/docs
+📂 Project location: /path/to/generated_projects/project_20250107_144530
+💻 To run it again: uvicorn main:app --reload
+
+=== Success! ===
+Your application has been generated and is ready to use.
+Location: /path/to/generated_projects/project_20250107_144530
 ```
+
+**Generated Files:**
+- `main.py`: FastAPI application with CRUD endpoints
+- `models.py`: Pydantic models for Todo items
+- `requirements.txt`: Dependencies (fastapi, uvicorn, pydantic)
+- `README.md`: API documentation and usage examples
+- `test_api.py`: Sample API test requests
+
+### Feature 2: Updating Existing Projects
+
+**Complete User Interaction Flow:**
+
+```bash
+$ python latest_coding_agent.py
+================================================================================
+Python Application Generator
+================================================================================
+Options:
+1. Create a new Python application
+2. Update an existing generated project
+3. Create a static HTML website
+
+Enter your choice (1, 2 or 3): 2
+
+Found existing projects:
+1. project_20250107_143022 - Streamlit project (Created: 2025-01-07 14:30:22)
+   Main files: app.py, sample_data.py
+2. project_20250107_144530 - FastAPI project (Created: 2025-01-07 14:45:30)
+   Main files: main.py, models.py
+
+Select a project number to update (or 0 to create new): 1
+
+Selected project: /path/to/generated_projects/project_20250107_143022
+
+=== Analyzing Project ===
+Project Type: Streamlit
+Main Features: Sales analytics dashboard with revenue trends, product performance charts, and customer demographics visualization
+Current Files: app.py, sample_data.py, requirements.txt, README.md
+
+What updates would you like to make to this project?
+Your input: add user authentication and the ability to upload custom CSV data files
+
+=== Gathering Update Requirements ===
+Question 1: What type of authentication do you want to implement? (simple password, user accounts, OAuth, etc.)
+Your response: simple password protection with a login form
+
+Question 2: What CSV file format should users be able to upload? What columns are expected?
+Your response: CSV files with columns: date, product, revenue, customer_segment, region
+
+Question 3: Should the uploaded data replace the sample data or be added alongside it?
+Your response: replace the sample data and allow users to switch between different uploaded datasets
+
+✅ Update requirements gathered (3 questions answered)
+
+=== Generating Updated Code ===
+Generated 6 files: app.py, auth.py, data_handler.py, requirements.txt, README.md, sample_data.py
+Updated/Added files:
+- app.py (enhanced with authentication and file upload)
+- auth.py (new - authentication functions)
+- data_handler.py (new - CSV processing)
+- requirements.txt (updated with new dependencies)
+
+✅ Updated application started successfully!
+🌐 You can access it at: http://localhost:8501
+📂 Updated project location: /path/to/generated_projects/project_20250107_143022_updated_20250107_150015
+
+=== Update Summary ===
+Original project: /path/to/generated_projects/project_20250107_143022
+Updated project: /path/to/generated_projects/project_20250107_143022_updated_20250107_150015
+Updated/Added files:
+- app.py
+- auth.py
+- data_handler.py
+- requirements.txt
+```
+
+### Feature 3: Creating HTML Websites
+
+**Complete User Interaction Flow:**
+
+```bash
+$ python latest_coding_agent.py
+================================================================================
+Python Application Generator
+================================================================================
+Options:
+1. Create a new Python application
+2. Update an existing generated project
+3. Create a static HTML website
+
+Enter your choice (1, 2 or 3): 3
+What kind of website would you like to build? portfolio website for a web developer
+
+Website Description: portfolio website for a web developer
+
+=== Gathering Requirements ===
+Any Reference link eg doc: 
+
+Question 1: What sections do you want on your portfolio website?
+Your response: header with navigation, about me section, skills showcase, project portfolio with images, contact form, and footer
+
+Question 2: What color scheme and design style do you prefer?
+Your response: modern dark theme with blue accents, clean minimalist design, responsive layout
+
+Question 3: Do you want any interactive features or animations?
+Your response: smooth scrolling, hover effects on project cards, animated skill bars, and a working contact form
+
+✅ Requirements gathered (3 questions answered)
+
+=== Generating and Running Code ===
+Attempt 1/3
+Generated 8 files: index.html, styles.css, script.js, images/placeholder.jpg, README.md, contact.php, projects.json, favicon.ico
+Run command: python -m http.server 8000
+
+Starting application...
+✅ Application started successfully!
+🌐 You can access it at: http://localhost:8000
+📂 Project location: /path/to/generated_projects/project_20250107_151245
+💻 To run it again: python -m http.server 8000
+
+=== Success! ===
+Your application has been generated and is ready to use.
+Location: /path/to/generated_projects/project_20250107_151245
+```
+
+**Generated Files:**
+- `index.html`: Main HTML structure with all sections
+- `styles.css`: Complete CSS with dark theme and responsive design
+- `script.js`: JavaScript for animations and interactivity
+- `contact.php`: Backend script for contact form processing
+- `projects.json`: Sample project data
+- `images/`: Directory with placeholder images
+- `README.md`: Website documentation and deployment instructions
+
+### Sample Inputs and Expected Outputs
+
+#### Input Examples for Different Project Types
+
+**Streamlit Applications:**
+- "data analysis tool for CSV files"
+- "machine learning model comparison dashboard"
+- "financial calculator with charts"
+- "image processing application"
+- "real-time data monitoring dashboard"
+
+**FastAPI Services:**
+- "user management API with authentication"
+- "file upload and processing service"
+- "data analytics API with database"
+- "notification system with webhooks"
+- "inventory management REST API"
+
+**HTML Websites:**
+- "business landing page with contact form"
+- "photography portfolio with gallery"
+- "restaurant website with menu and reservations"
+- "personal blog with article management"
+- "e-commerce product showcase"
+
+#### Expected Output Structure
+
+**For Streamlit Projects:**
+```
+generated_projects/project_YYYYMMDD_HHMMSS/
+├── app.py                 # Main Streamlit application
+├── requirements.txt       # streamlit, pandas, plotly, etc.
+├── README.md             # Usage instructions
+├── run_command.txt       # streamlit run app.py
+└── data/                 # Sample data files (if needed)
+    └── sample_data.csv
+```
+
+**For FastAPI Projects:**
+```
+generated_projects/project_YYYYMMDD_HHMMSS/
+├── main.py               # FastAPI application
+├── models.py             # Pydantic models
+├── requirements.txt      # fastapi, uvicorn, pydantic
+├── README.md            # API documentation
+├── run_command.txt      # uvicorn main:app --reload
+└── tests/               # API tests (if generated)
+    └── test_main.py
+```
+
+**For HTML Projects:**
+```
+generated_projects/project_YYYYMMDD_HHMMSS/
+├── index.html           # Main HTML file
+├── styles.css           # CSS styling
+├── script.js            # JavaScript functionality
+├── README.md           # Deployment instructions
+├── run_command.txt     # python -m http.server 8000
+├── images/             # Image assets
+│   └── placeholder.jpg
+└── assets/             # Additional assets
+    ├── fonts/
+    └── icons/
+```
+
+### CLI Interface Navigation
+
+**Main Menu Options:**
+1. **Option 1**: Create new Python application → Choose Streamlit or FastAPI → Requirements gathering → Code generation
+2. **Option 2**: Update existing project → Select from list → Describe changes → Enhanced code generation
+3. **Option 3**: Create HTML website → Describe website type → Requirements gathering → Static site generation
+
+**Requirements Gathering Process:**
+- AI asks 2-5 targeted questions based on project type
+- User provides detailed responses for better code generation
+- Optional reference documentation URLs can be provided
+- Process continues until AI has sufficient information
+
+**Code Generation and Execution:**
+- Up to 3 attempts to generate working code
+- Automatic dependency installation
+- Application startup and URL provision
+- Error handling and retry logic
+- Success confirmation with project location
 
 ## Troubleshooting
 
@@ -659,6 +961,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
