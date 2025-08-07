@@ -458,6 +458,75 @@ vibe_coder/
   - Implements logging and debugging utilities
   - Contains constants and configuration helpers
 
+#### Configuration and Documentation Files
+
+- **`requirements.txt`** (Project Dependencies)
+  - Lists all Python packages required for the application
+  - Includes core dependencies: fastapi, openai, pydantic, streamlit, uvicorn
+  - Used for automatic dependency installation during setup
+  - Pinned versions ensure consistent behavior across environments
+
+- **`.envcopy`** (Environment Variables Template)
+  - Template file containing all supported environment variables
+  - Includes configuration for OpenAI, DeepSeek, Local LLM, and Ollama
+  - Contains BASE_URL configurations and model name examples
+  - Users copy this to `.env` and fill in their actual API keys
+
+- **`.gitignore`** (Git Ignore Rules)
+  - Excludes sensitive files like `.env` from version control
+  - Ignores Python cache files, virtual environments
+  - Excludes generated projects directory from repository
+  - Maintains clean repository structure
+
+- **`LICENSE`** (MIT License)
+  - MIT License terms for the project
+  - Copyright information and usage permissions
+  - Legal framework for open-source distribution
+
+- **`run_command.txt`** (Execution Instructions)
+  - Simple text file containing the main execution command
+  - Contains: `python3 latest_coding_agent.py`
+  - Quick reference for running the application
+
+#### Directory Structure
+
+- **`generated_projects/`** (Generated Projects Directory)
+  - Contains all AI-generated projects with timestamp-based naming
+  - Each project has format: `project_YYYYMMDD_HHMMSS`
+  - Automatically created when first project is generated
+  - Projects include source code, requirements.txt, and run commands
+
+- **`old_version/`** (Previous Versions)
+  - Contains earlier versions of the application for reference
+  - `v0.1_latest_coding_agent.py`: Previous version of main application
+  - `v0_old_coder.py`: Original version of the coding agent
+  - Maintained for backward compatibility and development history
+
+### Generated Project Structure
+
+When the application creates a new project, it generates the following structure:
+
+```
+generated_projects/project_20250107_143022/
+├── app.py                    # Main application file (Streamlit/FastAPI)
+├── requirements.txt          # Project-specific dependencies
+├── README.md                # Project documentation
+├── run_command.txt          # Command to run the application
+├── static/                  # Static files (for web projects)
+│   ├── css/
+│   ├── js/
+│   └── images/
+└── templates/               # HTML templates (for FastAPI projects)
+    └── index.html
+```
+
+#### Generated Project File Types
+
+- **Streamlit Projects**: Generate `app.py` with Streamlit components and UI elements
+- **FastAPI Projects**: Generate `main.py` with API endpoints, models, and documentation
+- **HTML Projects**: Generate `index.html`, CSS files, and JavaScript for static websites
+- **Common Files**: All projects include `requirements.txt`, `README.md`, and `run_command.txt`
+
 ## Examples
 
 ### Creating a Streamlit Data Visualization App
@@ -590,6 +659,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
