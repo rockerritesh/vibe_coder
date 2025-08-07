@@ -80,6 +80,50 @@ The Vibe Coder Agent is designed for users who want to create projects with mini
    
    You should see the main menu with three options. If you encounter errors, check the troubleshooting section below.
 
+### Complete Setup Example (OpenAI)
+
+Here's a complete setup example using OpenAI:
+
+```bash
+# 1. Clone and navigate
+git clone https://github.com/your-username/vibe_coder.git
+cd vibe_coder
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Setup environment
+cp .envcopy .env
+
+# 4. Edit .env file (replace with your actual API key)
+echo 'OPENAI_API_KEY=sk-proj-your-actual-openai-key-here' > .env
+echo 'BASE_URL_OPENAI=https://api.openai.com/v1/' >> .env
+echo 'MODEL_NAME=gpt-3.5-turbo' >> .env
+
+# 5. Test the setup
+python latest_coding_agent.py
+```
+
+### Virtual Environment Setup (Recommended)
+
+For better dependency management, use a virtual environment:
+
+```bash
+# Create virtual environment
+python -m venv vibe_coder_env
+
+# Activate virtual environment
+# On Windows:
+vibe_coder_env\Scripts\activate
+# On macOS/Linux:
+source vibe_coder_env/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Continue with setup...
+```
+
 ## Configuration
 
 ### Environment Variables
@@ -357,6 +401,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
