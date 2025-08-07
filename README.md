@@ -996,11 +996,119 @@ generated_projects/project_YYYYMMDD_HHMMSS/
 
 ## Limitations
 
-- **Dependency Installation**: Occasionally fails to install requirements.txt automatically
-- **Programming Knowledge**: Some basic programming understanding helpful for troubleshooting
-- **Model Limitations**: Generated code quality depends on the chosen LLM model
-- **Complex Applications**: Better suited for small to medium-sized applications
-- **Internet Connection**: Required for API-based LLM providers
+### Known System Limitations
+
+#### Dependency Installation Issues
+- **Automatic Installation Failures**: The `requirements.txt` installation process occasionally fails due to:
+  - Network connectivity issues during package downloads
+  - Conflicting package versions in the user's environment
+  - Platform-specific compilation requirements for certain packages
+  - Insufficient system permissions for package installation
+- **Workaround**: Manual installation of dependencies may be required in some cases
+- **Impact**: Users may need to install packages individually or resolve conflicts manually
+
+#### Programming Knowledge Requirements
+- **Basic Understanding Needed**: While designed for minimal coding experience, some programming knowledge is helpful for:
+  - Troubleshooting generated code issues
+  - Understanding error messages and logs
+  - Customizing generated applications beyond basic functionality
+  - Debugging dependency conflicts or environment issues
+- **Learning Curve**: Users completely new to programming may need additional guidance
+- **Recommendation**: Familiarity with Python basics, command-line usage, and web development concepts is beneficial
+
+#### Model and AI Limitations
+- **Code Quality Variability**: Generated code quality depends heavily on:
+  - The chosen LLM model (GPT-4 > GPT-3.5 > local models generally)
+  - Quality and specificity of user requirements
+  - Complexity of the requested application
+  - Model's training data and capabilities
+- **Inconsistent Output**: Same requirements may produce different code across generations
+- **Limited Context**: AI may not understand complex business logic or domain-specific requirements
+- **No Code Review**: Generated code is not automatically tested or reviewed for best practices
+
+#### Application Complexity Constraints
+- **Best Suited For**: Small to medium-sized applications with straightforward requirements
+- **Not Ideal For**: 
+  - Large-scale enterprise applications
+  - Applications requiring complex database schemas
+  - Multi-service architectures or microservices
+  - Applications with strict security or compliance requirements
+  - Real-time systems or high-performance computing applications
+- **Scalability**: Generated applications may require significant refactoring for production use
+
+#### Technical Infrastructure Requirements
+- **Internet Connection**: Required for:
+  - API-based LLM providers (OpenAI, DeepSeek)
+  - Package installation from PyPI
+  - Reference documentation scraping
+  - Model downloads for local providers
+- **System Resources**: Local LLM providers require:
+  - Sufficient RAM (8GB+ recommended for 7B models)
+  - Modern CPU or GPU for reasonable performance
+  - Adequate disk space for model storage
+- **Platform Compatibility**: Primarily tested on Unix-like systems (Linux, macOS)
+
+### Functional Limitations
+
+#### Project Types and Features
+- **Limited Framework Support**: Currently supports only:
+  - Streamlit for data applications
+  - FastAPI for REST APIs
+  - Static HTML/CSS/JavaScript for websites
+- **No Support For**:
+  - Django or Flask web frameworks
+  - Desktop applications (Tkinter, PyQt, etc.)
+  - Mobile applications
+  - Database migration scripts
+  - DevOps or deployment configurations
+
+#### Code Generation Scope
+- **Single-File Focus**: Best at generating simple, single-file applications
+- **Limited Multi-File Projects**: Complex projects with multiple modules may have integration issues
+- **No Testing**: Generated code typically lacks comprehensive unit tests
+- **Basic Error Handling**: Generated applications may have minimal error handling and validation
+- **No Authentication**: Advanced authentication and authorization features are limited
+
+#### Update and Maintenance
+- **Version Control**: No built-in version control for generated projects
+- **Backup Management**: Users must manually backup important generated projects
+- **Update Conflicts**: Project updates may overwrite custom modifications
+- **No Migration Path**: No automated way to migrate projects between different versions of the tool
+
+### Performance and Reliability Limitations
+
+#### Generation Speed and Reliability
+- **API Rate Limits**: Subject to LLM provider rate limiting and quotas
+- **Generation Time**: Complex applications may take several minutes to generate
+- **Retry Logic**: Limited to 3 attempts per generation, may fail on complex requirements
+- **No Offline Mode**: Cannot generate code without internet connection (except for local LLMs)
+
+#### Resource Usage
+- **Disk Space**: Generated projects accumulate over time in `generated_projects/` directory
+- **Memory Usage**: Large projects or complex requirements may consume significant memory
+- **API Costs**: Usage of commercial LLM providers incurs costs based on token consumption
+
+### Security and Privacy Considerations
+- **Code Security**: Generated code is not automatically scanned for security vulnerabilities
+- **API Key Exposure**: Risk of accidentally committing API keys to version control
+- **Data Privacy**: User requirements and generated code may be processed by third-party LLM providers
+- **No Sandboxing**: Generated applications run with full system permissions
+
+### Recommended Use Cases
+**Ideal For**:
+- Rapid prototyping and proof-of-concept development
+- Learning and educational projects
+- Simple data visualization dashboards
+- Basic REST API services
+- Static websites and landing pages
+- Quick automation scripts
+
+**Not Recommended For**:
+- Production-critical applications without thorough review
+- Applications handling sensitive or personal data
+- Complex business applications with intricate workflows
+- High-availability or mission-critical systems
+- Applications requiring extensive testing and validation
 
 ## Architecture Overview
 
@@ -1071,6 +1179,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
