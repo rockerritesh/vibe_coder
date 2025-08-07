@@ -128,7 +128,7 @@ pip install -r requirements.txt
 
 ### Environment Variables
 
-The application uses the following environment variables (defined in `.env`):
+The application uses the following environment variables (defined in `.env`). These variables are based on the template provided in `.envcopy`:
 
 ```bash
 # OpenAI Configuration
@@ -145,6 +145,13 @@ LOCAL_API_KEY=your-local-api-key
 # Model Configuration
 MODEL_NAME=qwen2.5-coder-3b-instruct
 ```
+
+**Key Environment Variables:**
+- **`OPENAI_API_KEY`**: Your API key for the selected LLM provider
+- **`BASE_URL_OPENAI`**: The base URL for API requests (changes based on provider)
+- **`MODEL_NAME`**: The specific model to use for code generation
+- **`LOCAL_URL`**: Base URL for local LLM servers (Local LLM/Ollama)
+- **`LOCAL_API_KEY`**: API key for local servers (if required)
 
 ### Supported LLM Providers
 
@@ -401,6 +408,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
