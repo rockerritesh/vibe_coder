@@ -1142,6 +1142,401 @@ Streamlit and FastAPI provide the best combination for rapid application develop
 - **Quick Development**: Both frameworks enable rapid prototyping and deployment
 - **Python Ecosystem**: Leverage the rich Python ecosystem for data science and web development
 
+## Architecture Overview
+
+### System Architecture
+
+The Vibe Coder Agent follows a modular architecture designed for extensibility and maintainability. The system is organized into distinct layers that handle different aspects of the code generation workflow.
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                           VIBE CODER AGENT ARCHITECTURE                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐         │
+│  │   CLI Interface │    │  User Interface │    │   Input Handler │         │
+│  │                 │    │   Components    │    │                 │         │
+│  │ • Main Menu     │◄──►│ • Prompts       │◄──►│ • Validation    │         │
+│  │ • Option Select │    │ • Progress      │    │ • Sanitization  │         │
+│  │ • Error Display │    │ • Formatting    │    │ • Type Checking │         │
+│  └─────────────────┘    └─────────────────┘    └─────────────────┘         │
+│           │                       │                       │                │
+│           └───────────────────────┼───────────────────────┘                │
+│                                   │                                        │
+│  ┌─────────────────────────────────▼─────────────────────────────────┐     │
+│  │                    CORE ORCHESTRATION LAYER                       │     │
+│  │                                                                    │     │
+│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐ │     │
+│  │  │ Requirements    │    │   AI Conversation│    │  Project        │ │     │
+│  │  │ Gathering       │    │   Manager        │    │  Analyzer       │ │     │
+│  │  │                 │    │                  │    │                 │ │     │
+│  │  │ • Question Flow │◄──►│ • Context Mgmt   │◄──►│ • Type Detection│ │     │
+│  │  │ • User Responses│    │ • Message History│    │ • File Analysis │ │     │
+│  │  │ • Validation    │    │ • Model Selection│    │ • Update Logic  │ │     │
+│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘ │     │
+│  └────────────────────────────────┬───────────────────────────────────┘     │
+│                                   │                                        │
+│  ┌─────────────────────────────────▼─────────────────────────────────┐     │
+│  │                      LLM INTEGRATION LAYER                        │     │
+│  │                                                                    │     │
+│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐ │     │
+│  │  │   OpenAI        │    │   DeepSeek      │    │   Local LLM     │ │     │
+│  │  │   Client        │    │   Client        │    │   Client        │ │     │
+│  │  │                 │    │                 │    │                 │ │     │
+│  │  │ • GPT Models    │    │ • Coder Models  │    │ • LM Studio     │ │     │
+│  │  │ • API Handling  │    │ • API Handling  │    │ • Ollama        │ │     │
+│  │  │ • Rate Limiting │    │ • Rate Limiting │    │ • Custom Servers│ │     │
+│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘ │     │
+│  └────────────────────────────────┬───────────────────────────────────┘     │
+│                                   │                                        │
+│  ┌─────────────────────────────────▼─────────────────────────────────┐     │
+│  │                    CODE GENERATION & PROCESSING                   │     │
+│  │                                                                    │     │
+│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐ │     │
+│  │  │  Pydantic       │    │   Code          │    │   File          │ │     │
+│  │  │  Models         │    │   Generator     │    │   Manager       │ │     │
+│  │  │                 │    │                 │    │                 │ │     │
+│  │  │ • File Model    │◄──►│ • Template Mgmt │◄──►│ • File Creation │ │     │
+│  │  │ • Event Models  │    │ • Code Validation│    │ • Directory Mgmt│ │     │
+│  │  │ • Type Safety   │    │ • Multi-attempt │    │ • Path Handling │ │     │
+│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘ │     │
+│  └────────────────────────────────┬───────────────────────────────────┘     │
+│                                   │                                        │
+│  ┌─────────────────────────────────▼─────────────────────────────────┐     │
+│  │                    PROJECT MANAGEMENT LAYER                       │     │
+│  │                                                                    │     │
+│  │  ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐ │     │
+│  │  │   Project       │    │  Requirements   │    │  Application    │ │     │
+│  │  │   Manager       │    │  Manager        │    │  Executor       │ │     │
+│  │  │                 │    │                 │    │                 │ │     │
+│  │  │ • Dir Creation  │◄──►│ • Dependency    │◄──►│ • App Startup   │ │     │
+│  │  │ • Timestamping  │    │   Installation  │    │ • Process Mgmt  │ │     │
+│  │  │ • Organization  │    │ • Pip Management│    │ • URL Detection │ │     │
+│  │  └─────────────────┘    └─────────────────┘    └─────────────────┘ │     │
+│  └─────────────────────────────────────────────────────────────────────     │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Workflow Diagram
+
+The application follows a structured workflow from user input to application execution:
+
+```
+USER INPUT WORKFLOW
+═══════════════════
+
+┌─────────────┐
+│   START     │
+│ Application │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│  Main Menu  │
+│  Selection  │
+│             │
+│ 1. New App  │
+│ 2. Update   │
+│ 3. HTML     │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Option 1  │    │   Option 2  │    │   Option 3  │
+│  New Python │    │   Update    │    │    HTML     │
+│ Application │    │  Existing   │    │   Website   │
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │
+       ▼                  ▼                  ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   Choose    │    │   Select    │    │  Describe   │
+│ Streamlit/  │    │  Project    │    │   Website   │
+│   FastAPI   │    │ from List   │    │ Requirements│
+└──────┬──────┘    └──────┬──────┘    └──────┬──────┘
+       │                  │                  │
+       └──────────────────┼──────────────────┘
+                          │
+                          ▼
+                 ┌─────────────┐
+                 │ REQUIREMENTS│
+                 │  GATHERING  │
+                 │   PHASE     │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Reference   │
+                 │ Doc Input   │
+                 │ (Optional)  │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Web Scraper │◄─── scraper_doc.py
+                 │ Processing  │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ AI Question │◄─── models.py
+                 │ Generation  │     (RequirementsGatheringEvent)
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ User Input  │◄─── user_interaction.py
+                 │ Collection  │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Sufficient  │
+                 │Requirements?│
+                 └──────┬──────┘
+                        │
+                   ┌────▼────┐
+                   │   NO    │
+                   └────┬────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Continue    │
+                 │ Questioning │
+                 └──────┬──────┘
+                        │
+                        └─────────┐
+                                  │
+                   ┌────▼────┐    │
+                   │   YES   │    │
+                   └────┬────┘    │
+                        │         │
+                        ▼         │
+                 ┌─────────────┐  │
+                 │    CODE     │  │
+                 │ GENERATION  │  │
+                 │   PHASE     │  │
+                 └──────┬──────┘  │
+                        │         │
+                        ▼         │
+                 ┌─────────────┐  │
+                 │ LLM Client  │◄─┼─── openai_client.py
+                 │ Selection   │  │
+                 └──────┬──────┘  │
+                        │         │
+                        ▼         │
+                 ┌─────────────┐  │
+                 │ AI Code     │◄─┼─── models.py
+                 │ Generation  │  │     (CodeGenerationEvent)
+                 └──────┬──────┘  │
+                        │         │
+                        ▼         │
+                 ┌─────────────┐  │
+                 │ Code        │  │
+                 │ Validation  │  │
+                 │ & Retry     │  │
+                 └──────┬──────┘  │
+                        │         │
+                   ┌────▼────┐    │
+                   │ Success?│    │
+                   └────┬────┘    │
+                        │         │
+                   ┌────▼────┐    │
+                   │   NO    │    │
+                   │(Retry)  │    │
+                   └────┬────┘    │
+                        │         │
+                        └─────────┘
+                        
+                   ┌────▼────┐
+                   │   YES   │
+                   └────┬────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │   PROJECT   │
+                 │  CREATION   │
+                 │    PHASE    │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Create      │◄─── project_manager.py
+                 │ Project     │
+                 │ Directory   │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Generate    │◄─── file_manager.py
+                 │ Files       │
+                 │ Structure   │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Write Code  │
+                 │ Files to    │
+                 │ Disk        │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ DEPENDENCY  │
+                 │INSTALLATION │
+                 │    PHASE    │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Install     │◄─── requirements_manager.py
+                 │ Python      │
+                 │ Packages    │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Handle      │
+                 │ Install     │
+                 │ Errors      │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │APPLICATION  │
+                 │ EXECUTION   │
+                 │   PHASE     │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Start       │◄─── application_executor.py
+                 │ Application │
+                 │ Process     │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Detect      │
+                 │ Application │
+                 │ URL & Port  │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │ Display     │
+                 │ Success     │
+                 │ Message     │
+                 └──────┬──────┘
+                        │
+                        ▼
+                 ┌─────────────┐
+                 │    END      │
+                 │ Application │
+                 │  Ready to   │
+                 │    Use      │
+                 └─────────────┘
+```
+
+### Component Interaction Flow
+
+The major components interact in a coordinated manner to deliver the complete functionality:
+
+```
+COMPONENT INTERACTION DIAGRAM
+════════════════════════════
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                            INTERACTION FLOW                                 │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+latest_coding_agent.py (Main Controller)
+    │
+    ├─► user_interaction.py ──────► Collect user input and display prompts
+    │
+    ├─► scraper_doc.py ───────────► Process reference documentation URLs
+    │
+    ├─► openai_client.py ─────────► Initialize LLM client connection
+    │
+    ├─► models.py ────────────────► Structure AI requests and responses
+    │                                │
+    │                                ├─► RequirementsGatheringEvent
+    │                                ├─► CodeGenerationEvent  
+    │                                └─► ProjectAnalysisEvent
+    │
+    ├─► project_analyzer.py ──────► Analyze existing projects (Option 2)
+    │
+    ├─► project_manager.py ───────► Create and organize project directories
+    │                                │
+    │                                └─► file_manager.py ──► Create files
+    │
+    ├─► requirements_manager.py ───► Install Python dependencies
+    │
+    └─► application_executor.py ───► Start and manage applications
+
+Data Flow:
+User Input → Requirements Gathering → AI Processing → Code Generation → 
+File Creation → Dependency Installation → Application Execution
+```
+
+### Key Architectural Decisions
+
+#### Modular Design
+- **Separation of Concerns**: Each module handles a specific aspect of the workflow
+- **Loose Coupling**: Components interact through well-defined interfaces
+- **High Cohesion**: Related functionality is grouped within modules
+
+#### LLM Provider Abstraction
+- **Unified Interface**: Single client interface for multiple LLM providers
+- **Configuration-Driven**: Provider selection through environment variables
+- **Extensible**: Easy to add new LLM providers without code changes
+
+#### Project Management Strategy
+- **Timestamp-Based Naming**: Ensures unique project directories
+- **Atomic Operations**: Project creation is all-or-nothing
+- **Update Versioning**: Updates create new versions while preserving originals
+
+#### Error Handling and Resilience
+- **Retry Logic**: Multiple attempts for code generation
+- **Graceful Degradation**: Continues operation when non-critical components fail
+- **User Feedback**: Clear error messages and progress indicators
+
+#### File System Organization
+- **Centralized Storage**: All generated projects in `generated_projects/` directory
+- **Self-Contained Projects**: Each project includes all necessary files
+- **Documentation**: Every project includes README and run instructions
+
+### Data Models and Flow
+
+The application uses Pydantic models to ensure type safety and structured communication:
+
+```
+DATA MODEL HIERARCHY
+═══════════════════
+
+File Model
+├── name: str (filename)
+└── content: str (file contents)
+
+RequirementsGatheringEvent
+├── all_details_gathered: bool
+├── question: str
+├── project_type: str
+└── requirements: str
+
+CodeGenerationEvent
+├── generated_code: List[File]
+└── run_command: str
+
+ProjectAnalysisEvent
+├── project_structure: str
+├── project_type: str
+├── main_features: str
+└── suggested_updates: List[str]
+```
+
+This architecture ensures maintainability, extensibility, and reliable operation while providing a smooth user experience from initial input to running application.
+
 ## Contributing
 
 We welcome contributions! Please follow these steps:
@@ -1179,6 +1574,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
