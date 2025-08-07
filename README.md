@@ -174,12 +174,21 @@ MODEL_NAME=qwen2.5-coder-3b-instruct
   ```
 
 #### DeepSeek Configuration
-- **Models**: DeepSeek Coder and Chat models
-- **Setup**:
+- **Supported Models**: 
+  - `deepseek-coder` (specialized for code generation)
+  - `deepseek-chat` (general conversation and coding)
+  - `deepseek-coder-6.7b-instruct` (specific model variant)
+- **Setup Steps**:
   1. Get API key from [DeepSeek Platform](https://platform.deepseek.com/)
   2. Set in `.env`: `OPENAI_API_KEY=your-deepseek-key`
   3. Set base URL: `BASE_URL_OPENAI=https://api.deepseek.com/v1/`
   4. Choose model: `MODEL_NAME=deepseek-coder` or `deepseek-chat`
+- **Example Configuration**:
+  ```bash
+  OPENAI_API_KEY=sk-deepseek-abc123def456
+  BASE_URL_OPENAI=https://api.deepseek.com/v1/
+  MODEL_NAME=deepseek-coder
+  ```
 
 #### Local LLM Configuration
 - **Models**: Self-hosted models via local API servers (LM Studio, text-generation-webui, etc.)
@@ -418,6 +427,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
