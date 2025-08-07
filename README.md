@@ -191,12 +191,29 @@ MODEL_NAME=qwen2.5-coder-3b-instruct
   ```
 
 #### Local LLM Configuration
-- **Models**: Self-hosted models via local API servers (LM Studio, text-generation-webui, etc.)
-- **Setup**:
-  1. Start your local LLM server (e.g., LM Studio on port 1234)
-  2. Set in `.env`: `OPENAI_API_KEY=not-needed` (or any placeholder)
-  3. Set base URL: `BASE_URL_OPENAI=http://127.0.0.1:1234/v1/`
-  4. Set model name: `MODEL_NAME=your-local-model-name`
+- **Supported Platforms**: 
+  - LM Studio (recommended for beginners)
+  - text-generation-webui (advanced users)
+  - vLLM server
+  - FastChat server
+  - Any OpenAI-compatible local server
+- **Common Models**:
+  - `qwen2.5-coder-3b-instruct` (lightweight, good for coding)
+  - `codellama-7b-instruct` (Meta's code-focused model)
+  - `deepseek-coder-6.7b-instruct` (local version)
+  - `mistral-7b-instruct` (general purpose)
+- **Setup Steps**:
+  1. Install and start your local LLM server (e.g., LM Studio on port 1234)
+  2. Load your preferred model in the server
+  3. Set in `.env`: `OPENAI_API_KEY=not-needed` (placeholder)
+  4. Set base URL: `BASE_URL_OPENAI=http://127.0.0.1:1234/v1/`
+  5. Set model name: `MODEL_NAME=your-loaded-model-name`
+- **Example Configuration**:
+  ```bash
+  OPENAI_API_KEY=local-placeholder
+  BASE_URL_OPENAI=http://127.0.0.1:1234/v1/
+  MODEL_NAME=qwen2.5-coder-3b-instruct
+  ```
 
 #### Ollama Configuration
 - **Models**: Local Ollama installations
@@ -427,6 +444,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
