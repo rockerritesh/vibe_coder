@@ -862,27 +862,137 @@ generated_projects/project_YYYYMMDD_HHMMSS/
 
 ## Troubleshooting
 
-### Common Issues
+### Common Issues and Solutions
 
-**Dependency Installation Failures**
-- Ensure you have Python 3.8+ installed
-- Try upgrading pip: `pip install --upgrade pip`
-- Use virtual environment to avoid conflicts
+#### Dependency Installation Failures
 
-**API Key Configuration Problems**
-- Verify your API keys are correctly set in `.env`
-- Check that the BASE_URL matches your provider
+**Problem**: `pip install -r requirements.txt` fails or packages don't install correctly
+
+**Solutions**:
+- Ensure you have Python 3.8+ installed: `python --version`
+- Upgrade pip to latest version: `pip install --upgrade pip`
+- Use virtual environment to avoid conflicts:
+  ```bash
+  python -m venv vibe_coder_env
+  source vibe_coder_env/bin/activate  # On Windows: vibe_coder_env\Scripts\activate
+  pip install -r requirements.txt
+  ```
+- Clear pip cache: `pip cache purge`
+- Install packages individually if batch install fails:
+  ```bash
+  pip install fastapi openai pydantic python-dotenv streamlit uvicorn
+  ```
+- On macOS with M1/M2 chips, use: `pip install --no-cache-dir -r requirements.txt`
+
+#### API Key Configuration Problems
+
+**Problem**: Authentication errors, invalid API key, or connection failures
+
+**Solutions**:
+- Verify your API keys are correctly set in `.env` file (no quotes needed):
+  ```bash
+  OPENAI_API_KEY=sk-proj-your-actual-key-here
+  ```
+- Check that the BASE_URL matches your provider:
+  - OpenAI: `https://api.openai.com/v1/`
+  - DeepSeek: `https://api.deepseek.com/v1/`
+  - Local LLM: `http://127.0.0.1:1234/v1/`
+  - Ollama: `http://localhost:11434/v1/`
 - Ensure your API key has sufficient credits/permissions
+- Test API connection manually:
+  ```bash
+  curl -H "Authorization: Bearer YOUR_API_KEY" https://api.openai.com/v1/models
+  ```
+- Check for trailing spaces or hidden characters in `.env` file
+- Restart the application after changing environment variables
 
-**Model Compatibility Issues**
+#### Model Compatibility Issues
+
+**Problem**: Model not found, unsupported features, or generation failures
+
+**Solutions**:
 - Verify the MODEL_NAME in `.env` matches your provider's available models
-- Some models may not support structured output - try different models
-- Check provider documentation for supported features
+- Check provider documentation for supported models:
+  - OpenAI: `gpt-3.5-turbo`, `gpt-4`, `gpt-4-turbo`
+  - DeepSeek: `deepseek-coder`, `deepseek-chat`
+  - Local/Ollama: Use exact model name from your installation
+- Some models may not support structured output - try different models:
+  - If using local models, ensure they support function calling
+  - Switch to OpenAI models for best compatibility
+- Update model name format for Ollama: `qwen2.5-coder:3b` (include tag)
+- Check model availability: `ollama list` (for Ollama) or provider dashboard
 
-**Application Won't Start**
-- Check if required ports (8501 for Streamlit, 8000 for FastAPI) are available
-- Verify all dependencies are installed correctly
+#### Application Won't Start
+
+**Problem**: Generated applications fail to launch or crash immediately
+
+**Solutions**:
+- Check if required ports are available:
+  - Streamlit: port 8501
+  - FastAPI: port 8000
+  - HTML server: port 8000
+- Kill existing processes using the port:
+  ```bash
+  # Find process using port
+  lsof -i :8501  # or :8000
+  # Kill process
+  kill -9 <PID>
+  ```
+- Verify all dependencies are installed correctly:
+  ```bash
+  pip list | grep -E "(streamlit|fastapi|uvicorn)"
+  ```
 - Check the generated `run_command.txt` for specific instructions
+- Run applications manually to see detailed error messages:
+  ```bash
+  cd generated_projects/project_YYYYMMDD_HHMMSS
+  streamlit run app.py  # or uvicorn main:app --reload
+  ```
+- Check Python path and virtual environment activation
+- Ensure no syntax errors in generated code files
+
+#### Code Generation Issues
+
+**Problem**: AI generates incomplete, incorrect, or non-functional code
+
+**Solutions**:
+- Provide more detailed and specific requirements during the conversation
+- Use reference documentation URLs when available
+- Try different LLM models (GPT-4 generally produces better code than GPT-3.5)
+- Break down complex requirements into simpler, more focused requests
+- Use the update feature to iteratively improve generated code
+- Check that your API key has access to the specified model
+- Ensure stable internet connection during generation process
+
+#### File Permission and Path Issues
+
+**Problem**: Cannot create files, permission denied, or path not found errors
+
+**Solutions**:
+- Ensure you have write permissions in the current directory
+- Run with appropriate permissions: `sudo python latest_coding_agent.py` (Linux/macOS)
+- Check available disk space: `df -h`
+- Avoid special characters in project descriptions that might affect file names
+- Ensure the `generated_projects` directory can be created
+- On Windows, run Command Prompt as Administrator if needed
+
+#### Environment and System Issues
+
+**Problem**: Import errors, module not found, or system-specific failures
+
+**Solutions**:
+- Verify Python version compatibility: `python --version` (requires 3.8+)
+- Check system PATH includes Python and pip
+- Install system dependencies if needed:
+  ```bash
+  # Ubuntu/Debian
+  sudo apt-get update && sudo apt-get install python3-dev python3-pip
+  # macOS
+  brew install python
+  # Windows: Download from python.org
+  ```
+- Clear Python cache: `find . -type d -name __pycache__ -delete`
+- Reinstall problematic packages: `pip uninstall package_name && pip install package_name`
 
 ## Limitations
 
@@ -961,6 +1071,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
