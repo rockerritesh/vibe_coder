@@ -373,13 +373,90 @@ vibe_coder/
 
 ### Key Files Description
 
-- **`latest_coding_agent.py`**: Main entry point (687 lines) containing the core application logic
-- **`models.py`**: Defines Pydantic models for structured AI responses
-- **`openai_client.py`**: Handles LLM client configuration and initialization
-- **`application_executor.py`**: Manages running and testing generated applications
-- **`project_analyzer.py`**: Analyzes existing projects for updates and improvements
-- **`project_manager.py`**: Handles project creation, organization, and management
-- **`requirements_manager.py`**: Manages dependency installation and requirements.txt files
+#### Core Application Files
+
+- **`latest_coding_agent.py`** (Main Entry Point - 687 lines)
+  - Contains the main application logic and CLI interface
+  - Handles user interaction flow for all three main features
+  - Manages the conversation flow with AI for requirements gathering
+  - Orchestrates code generation, project creation, and application execution
+  - Implements the main menu system and user choice handling
+  - Contains functions for project directory creation and file management
+
+- **`models.py`** (Pydantic Models)
+  - Defines structured data models for AI responses using Pydantic
+  - `File`: Model for individual code files (name, content)
+  - `RequirementsGatheringEvent`: Model for AI requirements gathering responses
+  - `CodeGenerationEvent`: Model for AI code generation responses with file lists
+  - `ProjectAnalysisEvent`: Model for project analysis and update suggestions
+  - Ensures type safety and structured communication with LLM APIs
+
+- **`openai_client.py`** (LLM Client Configuration)
+  - Handles LLM provider connections and client initialization
+  - Configures OpenAI-compatible clients for different providers
+  - Manages API key and base URL configuration from environment variables
+  - Provides unified interface for all supported LLM providers
+  - Contains the `get_client()` function used throughout the application
+
+#### Project Management Components
+
+- **`application_executor.py`** (Application Execution Handler)
+  - Manages running and testing of generated applications
+  - Handles dependency installation via requirements.txt
+  - Starts web applications (Streamlit/FastAPI) and manages processes
+  - Provides application URL detection and status reporting
+  - Implements error handling for application startup failures
+  - Supports both web applications and command-line tools
+
+- **`project_analyzer.py`** (Project Analysis Functionality)
+  - Analyzes existing projects for structure and content
+  - Extracts project information including type, creation date, and main files
+  - Provides project metadata for the update functionality
+  - Identifies project types (Streamlit, FastAPI, HTML) from run commands
+  - Supports project listing and selection for updates
+
+- **`project_manager.py`** (Project Creation and Management)
+  - Handles project directory creation with timestamp-based naming
+  - Manages project organization in the `generated_projects` folder
+  - Coordinates between different components for project lifecycle
+  - Provides project discovery and listing functionality
+  - Integrates file management, requirements management, and execution
+
+- **`file_manager.py`** (File Operations Utilities)
+  - Handles file creation, reading, and writing operations
+  - Manages project file structure creation
+  - Provides utilities for file system operations
+  - Handles file encoding and error management
+  - Supports batch file operations for project generation
+
+- **`requirements_manager.py`** (Dependency Management)
+  - Manages Python package dependencies and requirements.txt files
+  - Handles automatic dependency installation using pip
+  - Provides error handling for dependency installation failures
+  - Supports virtual environment detection and management
+  - Implements retry logic for failed installations
+
+#### User Interface and Utilities
+
+- **`user_interaction.py`** (User Interface Components)
+  - Handles CLI user interface elements and prompts
+  - Manages user input validation and processing
+  - Provides consistent formatting for user messages
+  - Implements interactive question-answer flows
+  - Handles user choice validation and error messages
+
+- **`scraper_doc.py`** (Web Scraping for Reference Documentation)
+  - Extracts content from reference URLs provided by users
+  - Processes web pages to extract relevant text content
+  - Integrates scraped content into AI conversation context
+  - Supports multiple URL processing for comprehensive documentation
+  - Handles web scraping errors and content formatting
+
+- **`utils.py`** (General Utilities)
+  - Contains shared utility functions used across the application
+  - Provides common helper functions for string processing, file operations
+  - Implements logging and debugging utilities
+  - Contains constants and configuration helpers
 
 ## Examples
 
@@ -513,6 +590,7 @@ For questions, issues, or contributions, please:
 
 ### HTML Website  
 ![HTML Demo](image-1.png)
+
 
 
 
